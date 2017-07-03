@@ -15,8 +15,8 @@ import KeychainAccess
 class APIManager: SessionManager {
     
     // MARK: TODO: Add App Keys
-    static let consumerKey = "YOUR_KEY_HERE"
-    static let consumerSecret = "YOUR_SECRET_HERE"
+    static let consumerKey = "JhLFOGRP0r85Ukn2XXP2V0Zua"
+    static let consumerSecret = "WQYLhsXsJ0H3jIQFhNzRtPfDp8Uk0s6LP4u5N2TlKr3bGCD0Wr"
     
     static let requestTokenURL = "https://api.twitter.com/oauth/request_token"
     static let authorizeURL = "https://api.twitter.com/oauth/authorize"
