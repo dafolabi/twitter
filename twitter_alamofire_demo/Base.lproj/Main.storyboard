@@ -72,7 +72,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TweetCell" rowHeight="200" id="U1g-kw-izy" customClass="TweetCell" customModule="twitter_alamofire_demo" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TweetCell" rowHeight="200" id="U1g-kw-izy" customClass="TweetCell" customModule="twitter_alamofire_demo" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="200"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="U1g-kw-izy" id="zd2-Er-659">
@@ -126,6 +126,9 @@
                                                     </constraints>
                                                     <state key="normal" title="Retweet" image="retweet-icon"/>
                                                     <state key="selected" image="retweet-icon-green"/>
+                                                    <connections>
+                                                        <action selector="didHitRetweet:" destination="U1g-kw-izy" eventType="touchUpInside" id="a3a-nd-9av"/>
+                                                    </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10,000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ckK-N9-I7w">
                                                     <rect key="frame" x="209" y="75" width="53" height="21"/>
@@ -147,6 +150,9 @@
                                                     </constraints>
                                                     <state key="normal" title="Favorite" image="favor-icon"/>
                                                     <state key="selected" image="favor-icon-red"/>
+                                                    <connections>
+                                                        <action selector="didHitFavorite:" destination="U1g-kw-izy" eventType="touchUpInside" id="83o-ap-fP7"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -177,7 +183,15 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="tweetTextLabel" destination="epC-Fs-Q5Z" id="ZLP-IG-Wsf"/>
+                                            <outlet property="favoriteButton" destination="OcU-nt-4ZV" id="1Up-9C-VF9"/>
+                                            <outlet property="favoriteCountLabel" destination="tm2-rN-cGJ" id="Ef5-xY-1ch"/>
+                                            <outlet property="profileImageView" destination="XzX-1a-scF" id="aro-P0-IUR"/>
+                                            <outlet property="replyButton" destination="FvT-aB-7Us" id="giI-be-011"/>
+                                            <outlet property="retweetButton" destination="TzP-Dd-Atp" id="qFu-5O-H6J"/>
+                                            <outlet property="retweetCountLabel" destination="ckK-N9-I7w" id="r06-bl-aP3"/>
+                                            <outlet property="screennameLabel" destination="sBN-8h-vp6" id="IpS-V9-4l5"/>
+                                            <outlet property="timestampLabel" destination="RTR-0s-lac" id="oKk-SF-uHP"/>
+                                            <outlet property="tweetTextLabel" destination="epC-Fs-Q5Z" id="6PI-KE-DV0"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

@@ -66,6 +66,7 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         APIManager.shared.logout()
     }
     
+    
     // Makes a network request to get updated data
     // Updates the tableView with the new data
     // Hides the RefreshControl
