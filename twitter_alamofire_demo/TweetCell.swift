@@ -32,16 +32,50 @@ class TweetCell: UITableViewCell {
             screennameLabel.text = tweet.user.username
             timestampLabel.text = tweet.createdAtString
             
-            if tweet.favoriteCount == 0 {
-                favoriteCountLabel.text = ""
-                
-            } else {
-                favoriteCountLabel.text = String(tweet.favoriteCount!)
+            // favorite button
+            if tweet.favorited! {
+                favoriteButton.isSelected = true
+            }
+            else {
+                favoriteButton.isSelected = false
             }
             
+            // retweet button
+            if tweet.retweeted {
+                retweetButton.isSelected = true
+            } else {
+                retweetButton.isSelected = false
+            }
+            
+            
+            
+            // favorite count
+            if tweet.favoriteCount == 0 {
+                favoriteCountLabel.text = ""
+            } else {
+                if tweet.favoriteCount! >= 1000000 {
+                    favoriteCountLabel.text = String(tweet.favoriteCount! / 1000000) + "M"
+                } else if tweet.favoriteCount! >= 1000 {
+                    favoriteCountLabel.text = String(tweet.favoriteCount! / 1000) + "K"
+                    
+                } else {
+                    favoriteCountLabel.text = String(tweet.favoriteCount!)
+                }
+            }
+        
+            
+            // retweet count
             if tweet.retweetCount == 0 {
                 retweetCountLabel.text = ""
             } else {
+                if tweet.retweetCount >= 1000000 {
+                    retweetCountLabel.text = String(tweet.retweetCount / 1000000) + "M"
+                } else if tweet.retweetCount >= 1000 {
+                    retweetCountLabel.text = String(tweet.retweetCount / 1000) + "K"
+                    
+                } else {
+                    retweetCountLabel.text = String(tweet.retweetCount)
+                }
                 retweetCountLabel.text = String(tweet.retweetCount)
             }
         }
@@ -59,8 +93,10 @@ class TweetCell: UITableViewCell {
     }
     
     @IBAction func didHitFavorite(_ sender: Any) {
-        if favoriteButton.isSelected {
+        if tweet.favorited! {
             favoriteButton.isSelected = false
+            tweet.favorited = false
+            
             tweet.favoriteCount = tweet.favoriteCount! - 1
             
             if tweet.favoriteCount == 0 {
@@ -69,7 +105,22 @@ class TweetCell: UITableViewCell {
             } else {
                 favoriteCountLabel.text = String(tweet.favoriteCount!)
             }
-        } else {
+            
+            // network request
+            APIManager.shared.unfavorite(with: tweet, completion: { (tweet: Tweet?, error: Error?) in
+                if let error = error {
+                    print("Error retweeting Tweet: \(error.localizedDescription)")
+                } else if let tweet = tweet {
+                    print("Unfavorite success!")
+                    
+                }
+                
+            })
+        }
+        else {
+            favoriteButton.isSelected = true
+            tweet.favorited = true
+            
             favoriteButton.isSelected = true
             tweet.favoriteCount = tweet.favoriteCount! + 1
             
@@ -79,30 +130,74 @@ class TweetCell: UITableViewCell {
             } else {
                 favoriteCountLabel.text = String(tweet.favoriteCount!)
             }
+            
+            // network request
+            APIManager.shared.favorite(with: tweet, completion: { (tweet: Tweet?, error: Error?) in
+                if let error = error {
+                    print("Error retweeting Tweet: \(error.localizedDescription)")
+                } else if let tweet = tweet {
+                    print("Favorite success!")
+                    
+                }
+                
+            })
+            
         }
+        
     }
     
     @IBAction func didHitRetweet(_ sender: Any) {
-        if retweetButton.isSelected {
+        if tweet.retweeted {
             retweetButton.isSelected = false
+            tweet.retweeted = false
+            
             tweet.retweetCount = tweet.retweetCount - 1
             
             if tweet.retweetCount == 0 {
                 retweetCountLabel.text = ""
+                
             } else {
                 retweetCountLabel.text = String(tweet.retweetCount)
             }
+            
+            // network request
+            APIManager.shared.unretweet(with: tweet, completion: { (tweet: Tweet?, error: Error?) in
+                if let error = error {
+                    print("Error retweeting Tweet: \(error.localizedDescription)")
+                } else if let tweet = tweet {
+                    print("Unretweet success!")
+                    
+                }
+                
+            })
         }
         else {
+            retweetButton.isSelected = true
+            tweet.retweeted = true
+            
             retweetButton.isSelected = true
             tweet.retweetCount = tweet.retweetCount + 1
             
             if tweet.retweetCount == 0 {
                 retweetCountLabel.text = ""
+                
             } else {
                 retweetCountLabel.text = String(tweet.retweetCount)
             }
+            
+            // network request
+            APIManager.shared.retweet(with: tweet, completion: { (tweet: Tweet?, error: Error?) in
+                if let error = error {
+                    print("Error retweeting Tweet: \(error.localizedDescription)")
+                } else if let tweet = tweet {
+                    print("Retweet success!")
+                    
+                }
+                
+            })
+            
         }
+        
     }
     
 }

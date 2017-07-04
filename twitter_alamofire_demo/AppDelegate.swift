@@ -25,6 +25,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window?.rootViewController = loginVC
         }
         
+        // check if user is logged in.
+        if User.current != nil {
+            // if there is a logged in user then load the home view controller
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let TabbarViewController = storyboard.instantiateViewController(withIdentifier: "TabbarViewController")
+            window?.rootViewController = TabbarViewController
+        }
+        
         return true
     }
     

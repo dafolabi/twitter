@@ -48,7 +48,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <segue destination="RFK-Vv-pWW" kind="presentation" identifier="loginSegue" id="bSJ-ea-DmV"/>
+                        <segue destination="Lwu-GS-Vhc" kind="presentation" identifier="loginSegue" id="bSJ-ea-DmV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -212,12 +212,32 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZlF-i2-Ves" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1660" y="36.431784107946029"/>
+            <point key="canvasLocation" x="2599.1999999999998" y="36.431784107946029"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Item-->
+        <scene sceneID="GXa-rb-1ft">
+            <objects>
+                <viewController id="A6y-Ca-gGP" customClass="ProfileViewController" customModule="twitter_alamofire_demo" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="KdR-TF-264"/>
+                        <viewControllerLayoutGuide type="bottom" id="mo9-kv-pys"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="FwG-DF-Ln8">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Item" image="profile-Icon" id="Idk-9s-WpW"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3SW-OG-OSN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2625" y="805"/>
+        </scene>
+        <!--Item-->
         <scene sceneID="WXZ-z8-8LI">
             <objects>
                 <navigationController storyboardIdentifier="TweetsNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="RFK-Vv-pWW" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" image="home-icon" id="M2P-Oa-Zh9"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="COb-xK-t9O">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -230,6 +250,24 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HHk-jg-Lk3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="1799.2" y="36.431784107946029"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="0UO-YE-mrT">
+            <objects>
+                <tabBarController storyboardIdentifier="TabbarViewController" automaticallyAdjustsScrollViewInsets="NO" id="Lwu-GS-Vhc" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="Eob-cT-3sr">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="RFK-Vv-pWW" kind="relationship" relationship="viewControllers" id="vrW-7F-gTH"/>
+                        <segue destination="A6y-Ca-gGP" kind="relationship" relationship="viewControllers" id="QvN-GE-tQV"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="N1K-hR-6sG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
             <point key="canvasLocation" x="860" y="36.431784107946029"/>
         </scene>
     </scenes>
@@ -237,6 +275,8 @@
         <image name="TwitterLogoBlue" width="200" height="200"/>
         <image name="favor-icon" width="30" height="30"/>
         <image name="favor-icon-red" width="30" height="30"/>
+        <image name="home-icon" width="30" height="30"/>
+        <image name="profile-Icon" width="26" height="26"/>
         <image name="reply-icon" width="30" height="30"/>
         <image name="retweet-icon" width="30" height="30"/>
         <image name="retweet-icon-green" width="30" height="30"/>
