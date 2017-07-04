@@ -8,9 +8,12 @@
 
 import UIKit
 
-class TimelineViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class TimelineViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
     
     var tweets: [Tweet] = []
+    
+    var isMoreDataLoading = false
+    var loadingMoreView:InfiniteScrollActivityView?
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -29,6 +32,16 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 100
+        
+        // Set up Infinite Scroll loading indicator
+        let frame = CGRect(x: 0, y: tableView.contentSize.height, width: tableView.bounds.size.width, height: InfiniteScrollActivityView.defaultHeight)
+        loadingMoreView = InfiniteScrollActivityView(frame: frame)
+        loadingMoreView!.isHidden = true
+        tableView.addSubview(loadingMoreView!)
+        
+        var insets = tableView.contentInset
+        insets.bottom += InfiniteScrollActivityView.defaultHeight
+        tableView.contentInset = insets
         
         APIManager.shared.getHomeTimeLine { (tweets, error) in
             if let tweets = tweets {
@@ -71,16 +84,51 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
     // Updates the tableView with the new data
     // Hides the RefreshControl
     func refreshControlAction(_ refreshControl: UIRefreshControl) {
-        APIManager.shared.getHomeTimeLine { (tweets, error) in
-            if let tweets = tweets {
-                self.tweets = tweets
+        APIManager.shared.getNewTweets(with: Int((tweets.last?.id)!)) { (tweets: [Tweet]?, error: Error?) in
+            if let error = error {
+                print(error.localizedDescription)
+            } else if let tweets = tweets {
+                print("Success")
+                // Update flag
+                self.isMoreDataLoading = false
+                
+                // Stop the loading indicator
+                self.loadingMoreView!.stopAnimating()
+                
+                for tweet in tweets {
+                    self.tweets.append(tweet)
+                }
                 self.tableView.reloadData()
-            } else if let error = error {
-                print("Error getting home timeline: " + error.localizedDescription)
+            } else {
+                print("There are no new tweets")
             }
         }
-        refreshControl.endRefreshing()
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if (!isMoreDataLoading) {
+            // Calculate the position of one screen length before the bottom of the results
+            let scrollViewContentHeight = tableView.contentSize.height
+            let scrollOffsetThreshold = scrollViewContentHeight - tableView.bounds.size.height
+            
+            // When the user has scrolled past the threshold, start requesting
+            if(scrollView.contentOffset.y > scrollOffsetThreshold && tableView.isDragging) {
+                
+                isMoreDataLoading = true
+                
+                // Code to load more results
+                APIManager.shared.getHomeTimeLine { (tweets, error) in
+                    if let tweets = tweets {
+                        self.tweets = tweets
+                        self.tableView.reloadData()
+                    } else if let error = error {
+                        print("Error getting home timeline: " + error.localizedDescription)
+                    }
+                }
+            }
+        }
+    }
+    
     
     
     /*

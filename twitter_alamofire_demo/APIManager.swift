@@ -117,7 +117,7 @@ class APIManager: SessionManager {
         }
     }
     
-    // MARK: TODO: Favorite a Tweet
+    // MARK: Favorite a Tweet
     func favorite(with tweet: Tweet, completion: @escaping (Tweet?, Error?) -> ()) {
         let parameters = ["id": tweet.id]
         
@@ -142,7 +142,7 @@ class APIManager: SessionManager {
     }
     
     
-    // MARK: TODO: Un-Favorite a Tweet
+    // MARK: Un-Favorite a Tweet
     func unfavorite(with tweet: Tweet, completion: @escaping (Tweet?, Error?) -> ()) {
         let parameters = ["id": tweet.id]
         
@@ -165,7 +165,7 @@ class APIManager: SessionManager {
             }
         }
     }
-    // MARK: TODO: Retweet
+    // MARK: Retweet
     func retweet(with tweet: Tweet, completion: @escaping (Tweet?, Error?) -> ()) {
         let parameters = ["id": tweet.id]
         
@@ -187,7 +187,7 @@ class APIManager: SessionManager {
         }
     }
     
-    // MARK: TODO: Un-Retweet
+    // MARK: Un-Retweet
     func unretweet(with tweet: Tweet, completion: @escaping (Tweet?, Error?) -> ()) {
         let parameters = ["id": tweet.id]
         
@@ -225,8 +225,34 @@ class APIManager: SessionManager {
         }
     }
     
-        // MARK: TODO: Get User Timeline
-    
+    // MARK: TODO: Get User Timeline
+    func getNewTweets(with id: Int, completion: @escaping ([Tweet]?, Error?) -> ()) {
+        let parameters = ["max_id": id]
+
+        request(URL(string: "https://api.twitter.com/1.1/statuses/home_timeline.json")!, method: .get, parameters: parameters)
+            .validate()
+            .responseJSON { (response) in
+                guard response.result.isSuccess else {
+                    completion(nil, response.result.error)
+                    return
+                }
+                guard let tweetDictionaries = response.result.value as? [[String: Any]] else {
+                    print("Failed to parse tweets")
+                    let error = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey : "Failed to parse tweets"])
+                    completion(nil, error)
+                    return
+                }
+                
+                let data = NSKeyedArchiver.archivedData(withRootObject: tweetDictionaries)
+                UserDefaults.standard.set(data, forKey: "hometimeline_tweets")
+                UserDefaults.standard.synchronize()
+                
+                let tweets = tweetDictionaries.flatMap({ (dictionary) -> Tweet in
+                    Tweet(dictionary: dictionary)
+                })
+                completion(tweets, nil)
+        }
+    }
     
     //--------------------------------------------------------------------------------//
     
