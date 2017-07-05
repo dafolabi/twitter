@@ -43,6 +43,13 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         insets.bottom += InfiniteScrollActivityView.defaultHeight
         tableView.contentInset = insets
         
+        // Set the logo image in the navigation item
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        let image = UIImage(named: "TwitterLogoBlue.png");
+        imageView.image = image
+        imageView.contentMode = .scaleAspectFit
+        self.navigationItem.titleView = imageView
+
         APIManager.shared.getHomeTimeLine { (tweets, error) in
             if let tweets = tweets {
                 self.tweets = tweets
@@ -79,30 +86,27 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         APIManager.shared.logout()
     }
     
+    @IBAction func didTapCompose(_ sender: Any) {
+        performSegue(withIdentifier: "toCompose", sender: self)
+    }
+    
+    func did(post: Tweet) {
+    
+    }
     
     // Makes a network request to get updated data
     // Updates the tableView with the new data
     // Hides the RefreshControl
     func refreshControlAction(_ refreshControl: UIRefreshControl) {
-        APIManager.shared.getNewTweets(with: Int((tweets.last?.id)!)) { (tweets: [Tweet]?, error: Error?) in
-            if let error = error {
-                print(error.localizedDescription)
-            } else if let tweets = tweets {
-                print("Success")
-                // Update flag
-                self.isMoreDataLoading = false
-                
-                // Stop the loading indicator
-                self.loadingMoreView!.stopAnimating()
-                
-                for tweet in tweets {
-                    self.tweets.append(tweet)
-                }
+        APIManager.shared.getHomeTimeLine { (tweets, error) in
+            if let tweets = tweets {
+                self.tweets = tweets
                 self.tableView.reloadData()
-            } else {
-                print("There are no new tweets")
+            } else if let error = error {
+                print("Error getting home timeline: " + error.localizedDescription)
             }
         }
+        refreshControl.endRefreshing()
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -117,12 +121,25 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
                 isMoreDataLoading = true
                 
                 // Code to load more results
-                APIManager.shared.getHomeTimeLine { (tweets, error) in
-                    if let tweets = tweets {
-                        self.tweets = tweets
+                APIManager.shared.getNewTweets(with: Int((tweets.last?.id)!)) { (tweets: [Tweet]?, error: Error?) in
+                    if let error = error {
+                        print(error.localizedDescription)
+                    } else if let tweets = tweets {
+                        print("Success")
+                        
+                        // Update flag
+                        self.isMoreDataLoading = false
+                        
+                        // Stop the loading indicator
+                        self.loadingMoreView!.stopAnimating()
+                        for tweet in tweets {
+                            self.tweets.append(tweet)
+                        }
+                        
                         self.tableView.reloadData()
-                    } else if let error = error {
-                        print("Error getting home timeline: " + error.localizedDescription)
+                        
+                    } else {
+                        print("There are no new tweets")
                     }
                 }
             }
@@ -135,10 +152,9 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
      // MARK: - Navigation
      
      // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+    } */
     
 }

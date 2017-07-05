@@ -17,6 +17,7 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var timestampLabel: UILabel!
     @IBOutlet weak var retweetCountLabel: UILabel!
     @IBOutlet weak var favoriteCountLabel: UILabel!
+    @IBOutlet weak var usernameLabel: UILabel!
     
     @IBOutlet weak var retweetButton: UIButton!
     @IBOutlet weak var favoriteButton: UIButton!
@@ -31,6 +32,8 @@ class TweetCell: UITableViewCell {
             tweetTextLabel.text = tweet.text
             screennameLabel.text = tweet.user.username
             timestampLabel.text = tweet.createdAtString
+            usernameLabel.text = tweet.user.name
+
             
             // favorite button
             if tweet.favorited! {
@@ -99,11 +102,18 @@ class TweetCell: UITableViewCell {
             
             tweet.favoriteCount = tweet.favoriteCount! - 1
             
+            // favorite count
             if tweet.favoriteCount == 0 {
                 favoriteCountLabel.text = ""
-                
             } else {
-                favoriteCountLabel.text = String(tweet.favoriteCount!)
+                if tweet.favoriteCount! >= 1000000 {
+                    favoriteCountLabel.text = String(tweet.favoriteCount! / 1000000) + "M"
+                } else if tweet.favoriteCount! >= 1000 {
+                    favoriteCountLabel.text = String(tweet.favoriteCount! / 1000) + "K"
+                    
+                } else {
+                    favoriteCountLabel.text = String(tweet.favoriteCount!)
+                }
             }
             
             // network request
@@ -124,11 +134,18 @@ class TweetCell: UITableViewCell {
             favoriteButton.isSelected = true
             tweet.favoriteCount = tweet.favoriteCount! + 1
             
+            // favorite count
             if tweet.favoriteCount == 0 {
                 favoriteCountLabel.text = ""
-                
             } else {
-                favoriteCountLabel.text = String(tweet.favoriteCount!)
+                if tweet.favoriteCount! >= 1000000 {
+                    favoriteCountLabel.text = String(tweet.favoriteCount! / 1000000) + "M"
+                } else if tweet.favoriteCount! >= 1000 {
+                    favoriteCountLabel.text = String(tweet.favoriteCount! / 1000) + "K"
+                    
+                } else {
+                    favoriteCountLabel.text = String(tweet.favoriteCount!)
+                }
             }
             
             // network request
@@ -153,10 +170,18 @@ class TweetCell: UITableViewCell {
             
             tweet.retweetCount = tweet.retweetCount - 1
             
+            // retweet count
             if tweet.retweetCount == 0 {
                 retweetCountLabel.text = ""
-                
             } else {
+                if tweet.retweetCount >= 1000000 {
+                    retweetCountLabel.text = String(tweet.retweetCount / 1000000) + "M"
+                } else if tweet.retweetCount >= 1000 {
+                    retweetCountLabel.text = String(tweet.retweetCount / 1000) + "K"
+                    
+                } else {
+                    retweetCountLabel.text = String(tweet.retweetCount)
+                }
                 retweetCountLabel.text = String(tweet.retweetCount)
             }
             
@@ -178,10 +203,18 @@ class TweetCell: UITableViewCell {
             retweetButton.isSelected = true
             tweet.retweetCount = tweet.retweetCount + 1
             
+            // retweet count
             if tweet.retweetCount == 0 {
                 retweetCountLabel.text = ""
-                
             } else {
+                if tweet.retweetCount >= 1000000 {
+                    retweetCountLabel.text = String(tweet.retweetCount / 1000000) + "M"
+                } else if tweet.retweetCount >= 1000 {
+                    retweetCountLabel.text = String(tweet.retweetCount / 1000) + "K"
+                    
+                } else {
+                    retweetCountLabel.text = String(tweet.retweetCount)
+                }
                 retweetCountLabel.text = String(tweet.retweetCount)
             }
             
