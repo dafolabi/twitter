@@ -91,6 +91,7 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
                 print("Compose Tweet Success!")
             }
         }
+        dismiss(animated: true, completion: nil)
     }
     
     /*

@@ -9,7 +9,13 @@
 import UIKit
 import AlamofireImage
 
+protocol TweetCellDelegate: class {
+    func didTapProfile(of user: User)
+}
+
 class TweetCell: UITableViewCell {
+    
+    
     
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var tweetTextLabel: UILabel!
@@ -22,6 +28,8 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var retweetButton: UIButton!
     @IBOutlet weak var favoriteButton: UIButton!
     @IBOutlet weak var replyButton: UIButton!
+    
+    weak var delegate: TweetCellDelegate?
     
     
     var tweet: Tweet! {
@@ -94,6 +102,10 @@ class TweetCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    @IBAction func didTapProfile(_ sender: Any) {
+        delegate?.didTapProfile(of: tweet.user)
+    }
+    
     @IBAction func didHitFavorite(_ sender: Any) {
         if tweet.favorited! {
             favoriteButton.isSelected = false
@@ -130,7 +142,6 @@ class TweetCell: UITableViewCell {
             favoriteButton.isSelected = true
             tweet.favorited = true
             
-            favoriteButton.isSelected = true
             tweet.favoriteCount = tweet.favoriteCount! + 1
             
             // favorite count

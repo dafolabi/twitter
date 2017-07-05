@@ -26,7 +26,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     var tweets: [Tweet] = []
     
-    let user = User.current!
+    var user = User.current!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,9 +56,27 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         screennameLabel.text = user.username
         usernameLabel.text = user.name
         
-        followingCountLabel.text = user.followingCount
-        followersCountLabel.text = user.followersCount
         
+        if Int(user.followingCount)! >= 1000000 {
+            followingCountLabel.text = String(Int(user.followingCount)! / 1000000) + "M"
+        } else if Int(user.followingCount)! >= 1000 {
+            followingCountLabel.text = String(Int(user.followingCount)! / 1000) + "K"
+            
+        } else {
+            followingCountLabel.text = user.followingCount
+        }
+        
+        
+        if Int(user.followersCount)! >= 1000000 {
+            followersCountLabel.text = String(Int(user.followersCount)! / 1000000) + "M"
+        } else if Int(user.followersCount)! >= 1000 {
+            followersCountLabel.text = String(Int(user.followersCount)! / 1000) + "K"
+            
+        } else {
+            followersCountLabel.text = user.followersCount
+        }
+        
+     
         // Initialize a UIRefreshControl
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: UIControlEvents.valueChanged)

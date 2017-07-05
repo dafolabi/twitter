@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TimelineViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
+class TimelineViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, TweetCellDelegate {
     
     var tweets: [Tweet] = []
     
@@ -19,7 +19,7 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         tableView.dataSource = self
         tableView.delegate = self
         
@@ -68,6 +68,7 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         let cell = tableView.dequeueReusableCell(withIdentifier: "TweetCell", for: indexPath) as! TweetCell
         
         cell.tweet = tweets[indexPath.row]
+        cell.delegate = self
         
         return cell
     }
@@ -103,6 +104,9 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
             }
         }
         refreshControl.endRefreshing()
+    }
+    func didTapProfile(of user: User) {
+        performSegue(withIdentifier: "toProfile", sender: user)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -140,17 +144,25 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
                 })
             }
         }
+        
     }
     
     
     
-    /*
      // MARK: - Navigation
      
      // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-    } */
+        if (segue.identifier == "toProfile") {
+            let user = sender as! User
+
+            let profileViewController = segue.destination as! ProfileViewController
+            profileViewController.user = user
+        }
+        
+        
+    }
     
 }
