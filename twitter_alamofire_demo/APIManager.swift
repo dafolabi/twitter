@@ -55,7 +55,7 @@ class APIManager: SessionManager {
         clearCredentials()
         
         // TODO: Clear current user by setting it to nil
-
+        User.current = nil
         NotificationCenter.default.post(name: NSNotification.Name("didLogout"), object: nil)
     }
     
@@ -108,6 +108,35 @@ class APIManager: SessionManager {
                 
                 let data = NSKeyedArchiver.archivedData(withRootObject: tweetDictionaries)
                 UserDefaults.standard.set(data, forKey: "hometimeline_tweets")
+                UserDefaults.standard.synchronize()
+                
+                let tweets = tweetDictionaries.flatMap({ (dictionary) -> Tweet in
+                    Tweet(dictionary: dictionary)
+                })
+                completion(tweets, nil)
+        }
+    }
+    
+    func getUserTimeLine(with user: User, completion: @escaping ([Tweet]?, Error?) -> ()) {
+ 
+        let parameters = ["screen_name": user.username]
+        
+        request(URL(string: "https://api.twitter.com/1.1/statuses/user_timeline.json")!, method: .get, parameters: parameters)
+            .validate()
+            .responseJSON { (response) in
+                guard response.result.isSuccess else {
+                    completion(nil, response.result.error)
+                    return
+                }
+                guard let tweetDictionaries = response.result.value as? [[String: Any]] else {
+                    print("Failed to parse tweets")
+                    let error = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey : "Failed to parse tweets"])
+                    completion(nil, error)
+                    return
+                }
+                
+                let data = NSKeyedArchiver.archivedData(withRootObject: tweetDictionaries)
+                UserDefaults.standard.set(data, forKey: "usertimeline_tweets")
                 UserDefaults.standard.synchronize()
                 
                 let tweets = tweetDictionaries.flatMap({ (dictionary) -> Tweet in
@@ -225,7 +254,7 @@ class APIManager: SessionManager {
         }
     }
     
-    // MARK: TODO: Get User Timeline
+    // MARK: Get Home Timeline
     func getNewTweets(with id: Int, completion: @escaping ([Tweet]?, Error?) -> ()) {
         let parameters = ["max_id": id]
 
@@ -253,6 +282,93 @@ class APIManager: SessionManager {
                 completion(tweets, nil)
         }
     }
+    
+    // MARK: Get User Timeline
+    func getNewUserTweets(with id: Int, user: User, completion: @escaping ([Tweet]?, Error?) -> ()) {
+
+        let parameters = ["max_id": id, "screen_name": user.username] as [String : Any]
+        
+        request(URL(string: "https://api.twitter.com/1.1/statuses/user_timeline.json")!, method: .get, parameters: parameters)
+            .validate()
+            .responseJSON { (response) in
+                guard response.result.isSuccess else {
+                    completion(nil, response.result.error)
+                    return
+                }
+                guard let tweetDictionaries = response.result.value as? [[String: Any]] else {
+                    print("Failed to parse tweets")
+                    let error = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey : "Failed to parse tweets"])
+                    completion(nil, error)
+                    return
+                }
+                
+                let data = NSKeyedArchiver.archivedData(withRootObject: tweetDictionaries)
+                UserDefaults.standard.set(data, forKey: "usertimeline_tweets")
+                UserDefaults.standard.synchronize()
+                
+                let tweets = tweetDictionaries.flatMap({ (dictionary) -> Tweet in
+                    Tweet(dictionary: dictionary)
+                })
+                completion(tweets, nil)
+        }
+    }
+    
+    // MARK: Get Mentions Timeline
+    func getMentionsTimeLine(completion: @escaping ([Tweet]?, Error?) -> ()) {
+        
+        request(URL(string: "https://api.twitter.com/1.1/statuses/mentions_timeline.json")!, method: .get)
+            .validate()
+            .responseJSON { (response) in
+                guard response.result.isSuccess else {
+                    completion(nil, response.result.error)
+                    return
+                }
+                guard let tweetDictionaries = response.result.value as? [[String: Any]] else {
+                    print("Failed to parse tweets")
+                    let error = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey : "Failed to parse tweets"])
+                    completion(nil, error)
+                    return
+                }
+                
+                let data = NSKeyedArchiver.archivedData(withRootObject: tweetDictionaries)
+                UserDefaults.standard.set(data, forKey: "mentionstimeline_tweets")
+                UserDefaults.standard.synchronize()
+                
+                let tweets = tweetDictionaries.flatMap({ (dictionary) -> Tweet in
+                    Tweet(dictionary: dictionary)
+                })
+                completion(tweets, nil)
+        }
+    }
+    
+    func getMentionsTweets(with id: Int, completion: @escaping ([Tweet]?, Error?) -> ()) {
+        let parameters = ["max_id": id]
+        
+        request(URL(string: "https://api.twitter.com/1.1/statuses/mentions_timeline.json")!, method: .get, parameters: parameters)
+            .validate()
+            .responseJSON { (response) in
+                guard response.result.isSuccess else {
+                    completion(nil, response.result.error)
+                    return
+                }
+                guard let tweetDictionaries = response.result.value as? [[String: Any]] else {
+                    print("Failed to parse tweets")
+                    let error = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey : "Failed to parse tweets"])
+                    completion(nil, error)
+                    return
+                }
+                
+                let data = NSKeyedArchiver.archivedData(withRootObject: tweetDictionaries)
+                UserDefaults.standard.set(data, forKey: "mentionstimeline_tweets")
+                UserDefaults.standard.synchronize()
+                
+                let tweets = tweetDictionaries.flatMap({ (dictionary) -> Tweet in
+                    Tweet(dictionary: dictionary)
+                })
+                completion(tweets, nil)
+        }
+    }
+    
     
     //--------------------------------------------------------------------------------//
     

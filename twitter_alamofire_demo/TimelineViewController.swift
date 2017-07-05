@@ -20,15 +20,15 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.dataSource = self
+        tableView.delegate = self
+        
         // Initialize a UIRefreshControl
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: UIControlEvents.valueChanged)
         
         // add refresh control to table view
         tableView.insertSubview(refreshControl, at: 0)
-        
-        tableView.dataSource = self
-        tableView.delegate = self
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 100
@@ -90,10 +90,6 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         performSegue(withIdentifier: "toCompose", sender: self)
     }
     
-    func did(post: Tweet) {
-    
-    }
-    
     // Makes a network request to get updated data
     // Updates the tableView with the new data
     // Hides the RefreshControl
@@ -121,7 +117,7 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
                 isMoreDataLoading = true
                 
                 // Code to load more results
-                APIManager.shared.getNewTweets(with: Int((tweets.last?.id)!)) { (tweets: [Tweet]?, error: Error?) in
+                APIManager.shared.getNewTweets(with: Int(tweets.last!.id), completion: { (tweets: [Tweet]?, error: Error?) in
                     if let error = error {
                         print(error.localizedDescription)
                     } else if let tweets = tweets {
@@ -141,7 +137,7 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
                     } else {
                         print("There are no new tweets")
                     }
-                }
+                })
             }
         }
     }

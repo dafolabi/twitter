@@ -1,15 +1,15 @@
 //
-//  TweetCell.swift
+//  UserTweetCell.swift
 //  twitter_alamofire_demo
 //
-//  Created by Charles Hieger on 6/18/17.
+//  Created by Daniel Afolabi on 7/4/17.
 //  Copyright © 2017 Charles Hieger. All rights reserved.
 //
 
 import UIKit
 import AlamofireImage
 
-class TweetCell: UITableViewCell {
+class UserTweetCell: UITableViewCell {
     
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var tweetTextLabel: UILabel!
@@ -30,10 +30,10 @@ class TweetCell: UITableViewCell {
             profileImageView.af_setImage(withURL: url)
             
             tweetTextLabel.text = tweet.text
-            screennameLabel.text = tweet.user.username
+            screennameLabel.text = "@" + tweet.user.username
             timestampLabel.text = tweet.createdAtString
             usernameLabel.text = tweet.user.name
-
+            
             
             // favorite button
             if tweet.favorited! {
@@ -65,7 +65,7 @@ class TweetCell: UITableViewCell {
                     favoriteCountLabel.text = String(tweet.favoriteCount!)
                 }
             }
-        
+            
             
             // retweet count
             if tweet.retweetCount == 0 {

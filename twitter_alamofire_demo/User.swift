@@ -12,7 +12,12 @@ class User {
     
     var name: String
     var username: String
+    
     var profilePicutreUrl: String
+    var coverPictureUrl: String
+    
+    var followersCount: String
+    var followingCount: String
     
     // For user persistance
     var dictionary: [String: Any]?
@@ -44,8 +49,13 @@ class User {
     
     init(dictionary: [String: Any]) {
         name = dictionary["name"] as! String
-        username = dictionary["screen_name"] as! String
+        username = "@" + (dictionary["screen_name"] as! String)
+        
         profilePicutreUrl = dictionary["profile_image_url_https"] as! String
+        coverPictureUrl = dictionary["profile_banner_url"] as! String
+        
+        followersCount = String(dictionary["followers_count"] as! Int)
+        followingCount = String(dictionary["friends_count"] as! Int)
         
         self.dictionary = dictionary
     }
