@@ -31,7 +31,7 @@ class MemoriesTweetCell: UITableViewCell {
             profileImageView.af_setImage(withURL: url)
             
             tweetTextLabel.text = tweet.text
-            screennameLabel.text = "@" + tweet.user.username
+            screennameLabel.text = tweet.user.username
             timestampLabel.text = tweet.createdAtString
             usernameLabel.text = tweet.user.name
             

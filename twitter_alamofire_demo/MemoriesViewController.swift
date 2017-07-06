@@ -128,10 +128,12 @@ class MemoriesViewController:  UIViewController, UITableViewDelegate, UITableVie
                         
                         // Stop the loading indicator
                         self.loadingMoreView!.stopAnimating()
-                        for tweet in tweets {
-                            self.tweets.append(tweet)
+                        if tweets.count == 1 {
+                        } else {
+                            for tweet in tweets {
+                                self.tweets.append(tweet)
+                            }
                         }
-                        
                         self.tableView.reloadData()
                         
                     } else {
@@ -145,7 +147,6 @@ class MemoriesViewController:  UIViewController, UITableViewDelegate, UITableVie
     func didTapProfile(of user: User) {
         performSegue(withIdentifier: "toProfile", sender: user)
     }
-    
     
      // MARK: - Navigation
      

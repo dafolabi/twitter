@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TimelineViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, TweetCellDelegate {
+class TimelineViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, TweetCellDelegate, ComposeViewControllerDelegate {
     
     var tweets: [Tweet] = []
     
@@ -91,6 +91,12 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         performSegue(withIdentifier: "toCompose", sender: self)
     }
     
+    func did(post: Tweet) {
+        tweets.insert(post, at: 0)
+        tableView.reloadData()
+    }
+    
+    
     // Makes a network request to get updated data
     // Updates the tableView with the new data
     // Hides the RefreshControl
@@ -133,15 +139,18 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
                         
                         // Stop the loading indicator
                         self.loadingMoreView!.stopAnimating()
-                        for tweet in tweets {
-                            self.tweets.append(tweet)
+                        if tweets.count == 1 {
+                        } else {
+                            for tweet in tweets {
+                                self.tweets.append(tweet)
+                            }
                         }
-                        
                         self.tableView.reloadData()
                         
                     } else {
                         print("There are no new tweets")
                     }
+                    
                 })
             }
         }
@@ -161,8 +170,19 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
 
             let profileViewController = segue.destination as! ProfileViewController
             profileViewController.user = user
+        } else if (segue.identifier == "toCompose"){
+            let destination = segue.destination as! ComposeViewController
+            destination.delegate = self
+        } else {
+            let cell = sender as! UITableViewCell
+            if let indexPath = tableView.indexPath(for: cell) {
+                let tweet = tweets[indexPath.row]
+                let detailViewController = segue.destination as! DetailViewController
+                detailViewController.tweet = tweet
+                detailViewController.delegate = self
+
+            }
         }
-        
         
     }
     

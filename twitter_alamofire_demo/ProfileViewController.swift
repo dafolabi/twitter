@@ -28,10 +28,21 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     var user = User.current!
     
+    var cachedImageViewSize: CGRect!
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        // make navigator bar clear
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.view.backgroundColor = .clear
+        
+        self.navigationController?.navigationBar.tintColor = UIColor.white
+
         if user == nil {
             let user = User.current
         }
@@ -51,20 +62,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         let coverUrl = URL(string: user.coverPictureUrl)!
         coverPhotoImageView.af_setImage(withURL: coverUrl)
         
-        
-        
         screennameLabel.text = user.username
         usernameLabel.text = user.name
-        
-        
-        if Int(user.followingCount)! >= 1000000 {
-            followingCountLabel.text = String(Int(user.followingCount)! / 1000000) + "M"
-        } else if Int(user.followingCount)! >= 1000 {
-            followingCountLabel.text = String(Int(user.followingCount)! / 1000) + "K"
-            
-        } else {
-            followingCountLabel.text = user.followingCount
-        }
         
         
         if Int(user.followersCount)! >= 1000000 {
@@ -97,12 +96,12 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         insets.bottom += InfiniteScrollActivityView.defaultHeight
         tableView.contentInset = insets
         
-        // Set the logo image in the navigation item
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-        let image = UIImage(named: "TwitterLogoBlue.png");
-        imageView.image = image
-        imageView.contentMode = .scaleAspectFit
-        self.navigationItem.titleView = imageView
+//        // Set the logo image in the navigation item
+//        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+//        let image = UIImage(named: "TwitterLogoBlue.png");
+//        imageView.image = image
+//        imageView.contentMode = .scaleAspectFit
+//        self.navigationItem.titleView = imageView
         
         APIManager.shared.getUserTimeLine(with: user, completion: { (tweets, error) in
             if let tweets = tweets {
@@ -127,7 +126,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         let cell = tableView.dequeueReusableCell(withIdentifier: "UserTweetCell", for: indexPath) as! UserTweetCell
         
         cell.tweet = tweets[indexPath.row]
-        
         return cell
     }
     
@@ -173,10 +171,12 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                         
                         // Stop the loading indicator
                         self.loadingMoreView!.stopAnimating()
-                        for tweet in tweets {
-                            self.tweets.append(tweet)
+                        if tweets.count == 1{
+                        } else {
+                            for tweet in tweets {
+                                self.tweets.append(tweet)
+                            }
                         }
-                        
                         self.tableView.reloadData()
                         
                     } else {
@@ -196,7 +196,9 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-    }
-    */
+        let destination = segue.destination as! ComposeViewController
+        destination.delegate = self
+    } */
+
 
 }

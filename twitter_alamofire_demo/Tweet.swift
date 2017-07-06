@@ -19,6 +19,8 @@ class Tweet {
     var retweeted: Bool // Configure retweet button
     var user: User // Contains name, screenname, etc. of tweet author
     var createdAtString: String // Display date
+    var detailCreatedAtString: String // Display date
+
     
     // MARK: - Create initializer with dictionary
     init(dictionary: [String: Any]) {
@@ -62,6 +64,10 @@ class Tweet {
             // Convert Date to String
             createdAtString = formatter.string(from: date)
         }
+        formatter.dateStyle = .short
+        formatter.timeStyle = .none
+        // Convert Date to String
+        detailCreatedAtString = formatter.string(from: date)
  
     }
     

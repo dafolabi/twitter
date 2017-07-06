@@ -1,96 +1,89 @@
 //
-//  UserTweetCell.swift
+//  DetailViewController.swift
 //  twitter_alamofire_demo
 //
-//  Created by Daniel Afolabi on 7/4/17.
+//  Created by Daniel Afolabi on 7/6/17.
 //  Copyright © 2017 Charles Hieger. All rights reserved.
 //
 
 import UIKit
-import AlamofireImage
 
-class UserTweetCell: UITableViewCell {
+class DetailViewController: UIViewController, TweetCellDelegate {
     
-    @IBOutlet weak var profileImageView: UIImageView!
-    @IBOutlet weak var tweetTextLabel: UILabel!
+    @IBOutlet weak var profilePictureImageVIew: UIImageView!
+    
+    @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var screennameLabel: UILabel!
-    @IBOutlet weak var timestampLabel: UILabel!
+
     @IBOutlet weak var retweetCountLabel: UILabel!
     @IBOutlet weak var favoriteCountLabel: UILabel!
-    @IBOutlet weak var usernameLabel: UILabel!
+    
+    @IBOutlet weak var tweetTextLabel: UILabel!
+    
+    @IBOutlet weak var timestampLabel: UILabel!
     
     @IBOutlet weak var retweetButton: UIButton!
     @IBOutlet weak var favoriteButton: UIButton!
-    @IBOutlet weak var replyButton: UIButton!
     
-    var tweet: Tweet! {
-        didSet {
-            let url = URL(string: tweet.user.profilePicutreUrl)!
-            profileImageView.af_setImage(withURL: url)
-            
-            tweetTextLabel.text = tweet.text
-            screennameLabel.text = tweet.user.username
-            timestampLabel.text = tweet.createdAtString
-            usernameLabel.text = tweet.user.name
-            
-            
-            // favorite button
-            if tweet.favorited! {
-                favoriteButton.isSelected = true
-            }
-            else {
-                favoriteButton.isSelected = false
-            }
-            
-            // retweet button
-            if tweet.retweeted {
-                retweetButton.isSelected = true
-            } else {
-                retweetButton.isSelected = false
-            }
-            
-            
-            
-            // favorite count
-            if tweet.favoriteCount == 0 {
-                favoriteCountLabel.text = ""
-            } else {
-                if tweet.favoriteCount! >= 1000000 {
-                    favoriteCountLabel.text = String(tweet.favoriteCount! / 1000000) + "M"
-                } else if tweet.favoriteCount! >= 1000 {
-                    favoriteCountLabel.text = String(tweet.favoriteCount! / 1000) + "K"
-                    
-                } else {
-                    favoriteCountLabel.text = String(tweet.favoriteCount!)
-                }
-            }
-            
-            
-            // retweet count
-            if tweet.retweetCount == 0 {
-                retweetCountLabel.text = ""
-            } else {
-                if tweet.retweetCount >= 1000000 {
-                    retweetCountLabel.text = String(tweet.retweetCount / 1000000) + "M"
-                } else if tweet.retweetCount >= 1000 {
-                    retweetCountLabel.text = String(tweet.retweetCount / 1000) + "K"
-                    
-                } else {
-                    retweetCountLabel.text = String(tweet.retweetCount)
-                }
-            }
-        }
-    }
+    var tweet: Tweet!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
+    weak var delegate: TweetCellDelegate?
+
     
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view.
         
-        // Configure the view for the selected state
+        let url = URL(string: tweet.user.profilePicutreUrl)!
+        profilePictureImageVIew.af_setImage(withURL: url)
+        
+        tweetTextLabel.text = tweet.text
+        screennameLabel.text = tweet.user.username
+        
+        timestampLabel.text = tweet.detailCreatedAtString
+        
+        usernameLabel.text = tweet.user.name
+        
+        
+        // favorite button
+        if tweet.favorited! {
+            favoriteButton.isSelected = true
+        }
+        else {
+            favoriteButton.isSelected = false
+        }
+        
+        // retweet button
+        if tweet.retweeted {
+            retweetButton.isSelected = true
+        } else {
+            retweetButton.isSelected = false
+        }
+        
+        
+        
+        // favorite count
+        if tweet.favoriteCount! >= 1000000 {
+            favoriteCountLabel.text = String(tweet.favoriteCount! / 1000000) + "M"
+        } else if tweet.favoriteCount! >= 1000 {
+            favoriteCountLabel.text = String(tweet.favoriteCount! / 1000) + "K"
+            
+        } else {
+            favoriteCountLabel.text = String(tweet.favoriteCount!)
+        }
+        
+        
+        
+        // retweet count
+        if tweet.retweetCount >= 1000000 {
+            retweetCountLabel.text = String(tweet.retweetCount / 1000000) + "M"
+        } else if tweet.retweetCount >= 1000 {
+            retweetCountLabel.text = String(tweet.retweetCount / 1000) + "K"
+            
+        } else {
+            retweetCountLabel.text = String(tweet.retweetCount)
+        }
+    
     }
     
     @IBAction func didHitFavorite(_ sender: Any) {
@@ -129,7 +122,6 @@ class UserTweetCell: UITableViewCell {
             favoriteButton.isSelected = true
             tweet.favorited = true
             
-            favoriteButton.isSelected = true
             tweet.favoriteCount = tweet.favoriteCount! + 1
             
             // favorite count
@@ -226,7 +218,32 @@ class UserTweetCell: UITableViewCell {
             })
             
         }
-        
+            
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    @IBAction func didTapProfile(_ sender: Any) {
+        delegate?.didTapProfile(of: tweet.user)
+    }
+    
+    func didTapProfile(of user: User) {
+        performSegue(withIdentifier: "toProfile", sender: user)
+    }
+    
+
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+        let user = sender as! User
+        let profileViewController = segue.destination as! ProfileViewController
+        profileViewController.user = user
     }
     
 }

@@ -9,6 +9,11 @@
 import UIKit
 import AlamofireImage
 
+protocol ComposeViewControllerDelegate: class {
+    func did(post: Tweet)
+}
+
+
 class ComposeViewController: UIViewController, UITextViewDelegate {
 
     @IBOutlet weak var profileImageView: UIImageView!
@@ -20,6 +25,9 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
     
     var tweetColor = UIColor.white
     var overColor = UIColor.white
+    
+    weak var delegate: ComposeViewControllerDelegate?
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,9 +96,11 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
             if let error = error {
                 print("Error composing Tweet: \(error.localizedDescription)")
             } else if let tweet = tweet {
+                self.delegate?.did(post: tweet)
                 print("Compose Tweet Success!")
             }
         }
+        
         dismiss(animated: true, completion: nil)
     }
     
