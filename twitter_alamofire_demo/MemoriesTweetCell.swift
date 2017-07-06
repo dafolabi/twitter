@@ -23,7 +23,8 @@ class MemoriesTweetCell: UITableViewCell {
     @IBOutlet weak var favoriteButton: UIButton!
     @IBOutlet weak var replyButton: UIButton!
     
-    
+    weak var delegate: TweetCellDelegate?
+
     var tweet: Tweet! {
         didSet {
             let url = URL(string: tweet.user.profilePicutreUrl)!
@@ -92,6 +93,10 @@ class MemoriesTweetCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
         
         // Configure the view for the selected state
+    }
+    
+    @IBAction func didTapProfile(_ sender: Any) {
+        delegate?.didTapProfile(of: tweet.user)
     }
     
     @IBAction func didHitFavorite(_ sender: Any) {

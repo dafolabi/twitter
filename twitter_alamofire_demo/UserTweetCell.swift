@@ -23,7 +23,6 @@ class UserTweetCell: UITableViewCell {
     @IBOutlet weak var favoriteButton: UIButton!
     @IBOutlet weak var replyButton: UIButton!
     
-    
     var tweet: Tweet! {
         didSet {
             let url = URL(string: tweet.user.profilePicutreUrl)!

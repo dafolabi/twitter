@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MemoriesViewController:  UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
+class MemoriesViewController:  UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, TweetCellDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -50,6 +50,13 @@ class MemoriesViewController:  UIViewController, UITableViewDelegate, UITableVie
         insets.bottom += InfiniteScrollActivityView.defaultHeight
         tableView.contentInset = insets
         
+        // Set the logo image in the navigation item
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        let image = UIImage(named: "TwitterLogoBlue.png");
+        imageView.image = image
+        imageView.contentMode = .scaleAspectFit
+        self.navigationItem.titleView = imageView
+        
         
         APIManager.shared.getMentionsTimeLine(completion: { (tweets, error) in
             if let tweets = tweets {
@@ -74,6 +81,7 @@ class MemoriesViewController:  UIViewController, UITableViewDelegate, UITableVie
         let cell = tableView.dequeueReusableCell(withIdentifier: "MemoriesTweetCell", for: indexPath) as! MemoriesTweetCell
         
         cell.tweet = tweets[indexPath.row]
+        cell.delegate = self
         
         return cell
     }
@@ -134,17 +142,24 @@ class MemoriesViewController:  UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
+    func didTapProfile(of user: User) {
+        performSegue(withIdentifier: "toProfile", sender: user)
+    }
     
     
-    /*
      // MARK: - Navigation
      
      // In a storyboard-based application, you will often want to do a little preparation before navigation
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
      // Get the new view controller using segue.destinationViewController.
      // Pass the selected object to the new view controller.
+        let user = sender as! User
+        
+        let profileViewController = segue.destination as! ProfileViewController
+        profileViewController.user = user
+
      }
-     */
+    
     
 }
 

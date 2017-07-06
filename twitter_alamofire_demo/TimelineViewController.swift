@@ -105,6 +105,7 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         }
         refreshControl.endRefreshing()
     }
+    
     func didTapProfile(of user: User) {
         performSegue(withIdentifier: "toProfile", sender: user)
     }
