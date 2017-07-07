@@ -50,12 +50,12 @@ class MemoriesViewController:  UIViewController, UITableViewDelegate, UITableVie
         insets.bottom += InfiniteScrollActivityView.defaultHeight
         tableView.contentInset = insets
         
-        // Set the logo image in the navigation item
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-        let image = UIImage(named: "TwitterLogoBlue.png");
-        imageView.image = image
-        imageView.contentMode = .scaleAspectFit
-        self.navigationItem.titleView = imageView
+//        // Set the logo image in the navigation item
+//        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+//        let image = UIImage(named: "TwitterLogoBlue.png");
+//        imageView.image = image
+//        imageView.contentMode = .scaleAspectFit
+//        self.navigationItem.titleView = imageView
         
         
         APIManager.shared.getMentionsTimeLine(completion: { (tweets, error) in

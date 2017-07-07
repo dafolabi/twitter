@@ -28,9 +28,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     var user = User.current!
     
-    var cachedImageViewSize: CGRect!
-
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
