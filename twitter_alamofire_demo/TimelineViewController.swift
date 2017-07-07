@@ -60,6 +60,12 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.view.backgroundColor = UIColor.white
+        tableView.reloadData()
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tweets.count
     }
@@ -165,7 +171,7 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        if (segue.identifier == "toProfile") {
+        if segue.identifier == "toProfile" {
             let user = sender as! User
 
             let profileViewController = segue.destination as! ProfileViewController

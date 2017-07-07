@@ -35,14 +35,11 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        // make navigator bar clear
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.view.backgroundColor = .clear
         
-        self.navigationController?.navigationBar.tintColor = UIColor.white
-
         if user == nil {
             let user = User.current
         }
@@ -59,8 +56,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         profilePictureImageVIew.layer.masksToBounds = true
         
         // cover picture
-        let coverUrl = URL(string: user.coverPictureUrl)!
-        coverPhotoImageView.af_setImage(withURL: coverUrl)
+        if let coverUrl = user.coverPictureUrl {
+            let coverUrl = URL(string: user.coverPictureUrl!)!
+            coverPhotoImageView.af_setImage(withURL: coverUrl)
+        }
         
         screennameLabel.text = user.username
         usernameLabel.text = user.name
@@ -186,19 +185,21 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             }
         }
     }
-
     
-
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        let destination = segue.destination as! ComposeViewController
-        destination.delegate = self
-    } */
+        let cell = sender as! UITableViewCell
+        if let indexPath = tableView.indexPath(for: cell) {
+            let tweet = tweets[indexPath.row]
+            let detailViewController = segue.destination as! DetailViewController
+            detailViewController.tweet = tweet
+
+        }
+    }
 
 
 }

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ActiveLabel
 
 class DetailViewController: UIViewController, TweetCellDelegate {
     
@@ -18,7 +19,7 @@ class DetailViewController: UIViewController, TweetCellDelegate {
     @IBOutlet weak var retweetCountLabel: UILabel!
     @IBOutlet weak var favoriteCountLabel: UILabel!
     
-    @IBOutlet weak var tweetTextLabel: UILabel!
+    @IBOutlet weak var tweetTextLabel: ActiveLabel!
     
     @IBOutlet weak var timestampLabel: UILabel!
     
@@ -37,12 +38,23 @@ class DetailViewController: UIViewController, TweetCellDelegate {
         let url = URL(string: tweet.user.profilePicutreUrl)!
         profilePictureImageVIew.af_setImage(withURL: url)
         
+        profilePictureImageVIew.layer.cornerRadius = profilePictureImageVIew.frame.width * 0.5
+        profilePictureImageVIew.layer.masksToBounds = true
+        
+        
+        tweetTextLabel.enabledTypes = [.mention, .hashtag, .url]
         tweetTextLabel.text = tweet.text
+        tweetTextLabel.handleURLTap { (url) in
+            UIApplication.shared.openURL(url)
+        }
+        
         screennameLabel.text = tweet.user.username
         
         timestampLabel.text = tweet.detailCreatedAtString
         
         usernameLabel.text = tweet.user.name
+        
+        
         
         
         // favorite button
@@ -94,9 +106,6 @@ class DetailViewController: UIViewController, TweetCellDelegate {
             tweet.favoriteCount = tweet.favoriteCount! - 1
             
             // favorite count
-            if tweet.favoriteCount == 0 {
-                favoriteCountLabel.text = ""
-            } else {
                 if tweet.favoriteCount! >= 1000000 {
                     favoriteCountLabel.text = String(tweet.favoriteCount! / 1000000) + "M"
                 } else if tweet.favoriteCount! >= 1000 {
@@ -105,7 +114,6 @@ class DetailViewController: UIViewController, TweetCellDelegate {
                 } else {
                     favoriteCountLabel.text = String(tweet.favoriteCount!)
                 }
-            }
             
             // network request
             APIManager.shared.unfavorite(with: tweet, completion: { (tweet: Tweet?, error: Error?) in
@@ -125,9 +133,6 @@ class DetailViewController: UIViewController, TweetCellDelegate {
             tweet.favoriteCount = tweet.favoriteCount! + 1
             
             // favorite count
-            if tweet.favoriteCount == 0 {
-                favoriteCountLabel.text = ""
-            } else {
                 if tweet.favoriteCount! >= 1000000 {
                     favoriteCountLabel.text = String(tweet.favoriteCount! / 1000000) + "M"
                 } else if tweet.favoriteCount! >= 1000 {
@@ -136,7 +141,6 @@ class DetailViewController: UIViewController, TweetCellDelegate {
                 } else {
                     favoriteCountLabel.text = String(tweet.favoriteCount!)
                 }
-            }
             
             // network request
             APIManager.shared.favorite(with: tweet, completion: { (tweet: Tweet?, error: Error?) in
@@ -161,9 +165,6 @@ class DetailViewController: UIViewController, TweetCellDelegate {
             tweet.retweetCount = tweet.retweetCount - 1
             
             // retweet count
-            if tweet.retweetCount == 0 {
-                retweetCountLabel.text = ""
-            } else {
                 if tweet.retweetCount >= 1000000 {
                     retweetCountLabel.text = String(tweet.retweetCount / 1000000) + "M"
                 } else if tweet.retweetCount >= 1000 {
@@ -172,7 +173,6 @@ class DetailViewController: UIViewController, TweetCellDelegate {
                 } else {
                     retweetCountLabel.text = String(tweet.retweetCount)
                 }
-            }
             
             // network request
             APIManager.shared.unretweet(with: tweet, completion: { (tweet: Tweet?, error: Error?) in
@@ -193,9 +193,6 @@ class DetailViewController: UIViewController, TweetCellDelegate {
             tweet.retweetCount = tweet.retweetCount + 1
             
             // retweet count
-            if tweet.retweetCount == 0 {
-                retweetCountLabel.text = ""
-            } else {
                 if tweet.retweetCount >= 1000000 {
                     retweetCountLabel.text = String(tweet.retweetCount / 1000000) + "M"
                 } else if tweet.retweetCount >= 1000 {
@@ -204,7 +201,6 @@ class DetailViewController: UIViewController, TweetCellDelegate {
                 } else {
                     retweetCountLabel.text = String(tweet.retweetCount)
                 }
-            }
             
             // network request
             APIManager.shared.retweet(with: tweet, completion: { (tweet: Tweet?, error: Error?) in

@@ -67,6 +67,11 @@ class MemoriesViewController:  UIViewController, UITableViewDelegate, UITableVie
             }
         })
     }
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.view.backgroundColor = UIColor.white
+        tableView.reloadData()
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -154,10 +159,21 @@ class MemoriesViewController:  UIViewController, UITableViewDelegate, UITableVie
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
      // Get the new view controller using segue.destinationViewController.
      // Pass the selected object to the new view controller.
-        let user = sender as! User
         
-        let profileViewController = segue.destination as! ProfileViewController
-        profileViewController.user = user
+        if segue.identifier == "toProfile" {
+            let user = sender as! User
+            let profileViewController = segue.destination as! ProfileViewController
+            profileViewController.user = user
+        } else {
+            let cell = sender as! UITableViewCell
+            if let indexPath = tableView.indexPath(for: cell) {
+                let tweet = tweets[indexPath.row]
+                let detailViewController = segue.destination as! DetailViewController
+                detailViewController.tweet = tweet
+                detailViewController.delegate = self
+            }
+
+        }
 
      }
     

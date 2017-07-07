@@ -14,7 +14,7 @@ class User {
     var username: String
     
     var profilePicutreUrl: String
-    var coverPictureUrl: String
+    var coverPictureUrl: String?
     
     var followersCount: String
     var followingCount: String
@@ -52,7 +52,10 @@ class User {
         username = "@" + (dictionary["screen_name"] as! String)
         
         profilePicutreUrl = dictionary["profile_image_url_https"] as! String
-        coverPictureUrl = dictionary["profile_banner_url"] as! String
+        
+        if dictionary["profile_banner_url"] != nil  {
+            coverPictureUrl = dictionary["profile_banner_url"] as! String
+        }
         
         followersCount = String(dictionary["followers_count"] as! Int)
         followingCount = String(dictionary["friends_count"] as! Int)

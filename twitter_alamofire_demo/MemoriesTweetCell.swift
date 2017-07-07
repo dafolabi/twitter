@@ -8,11 +8,12 @@
 
 import UIKit
 import AlamofireImage
+import ActiveLabel
 
 class MemoriesTweetCell: UITableViewCell {
     
     @IBOutlet weak var profileImageView: UIImageView!
-    @IBOutlet weak var tweetTextLabel: UILabel!
+    @IBOutlet weak var tweetTextLabel: ActiveLabel!
     @IBOutlet weak var screennameLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
     @IBOutlet weak var retweetCountLabel: UILabel!
@@ -30,7 +31,15 @@ class MemoriesTweetCell: UITableViewCell {
             let url = URL(string: tweet.user.profilePicutreUrl)!
             profileImageView.af_setImage(withURL: url)
             
+            profileImageView.layer.cornerRadius = profileImageView.frame.width * 0.5
+            profileImageView.layer.masksToBounds = true
+            
+            tweetTextLabel.enabledTypes = [.mention, .hashtag, .url]
             tweetTextLabel.text = tweet.text
+            tweetTextLabel.handleURLTap { (url) in
+                UIApplication.shared.openURL(url)
+            }
+            
             screennameLabel.text = tweet.user.username
             timestampLabel.text = tweet.createdAtString
             usernameLabel.text = tweet.user.name

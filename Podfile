@@ -12,7 +12,7 @@ target 'twitter_alamofire_demo' do
   pod 'Prephirences'
   pod 'KeychainAccess'
   pod 'AlamofireImage'
-  pod 'TTTAttributedLabel'
+  pod 'ActiveLabel'
 
   target 'twitter_alamofire_demoTests' do
     inherit! :search_paths

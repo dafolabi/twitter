@@ -80,7 +80,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="199.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I love tweeting!" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="epC-Fs-Q5Z">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I love tweeting!" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="epC-Fs-Q5Z" customClass="ActiveLabel" customModule="ActiveLabel">
                                                     <rect key="frame" x="66" y="34" width="301" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -362,7 +362,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f9B-cw-L4k">
                                 <rect key="frame" x="0.0" y="64" width="375" height="228"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I love tweeting!" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8hD-t0-H5p">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I love tweeting!" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8hD-t0-H5p" customClass="ActiveLabel" customModule="ActiveLabel">
                                         <rect key="frame" x="8" y="91" width="359" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
@@ -498,7 +498,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.58717477321624756" green="0.64007753133773804" blue="0.68711167573928833" alpha="0.30993150684931509" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.90184074640274048" green="0.92602962255477905" blue="0.94297671318054199" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="f9B-cw-L4k" secondAttribute="trailing" id="NID-ac-3pv"/>
                             <constraint firstItem="f9B-cw-L4k" firstAttribute="leading" secondItem="5O4-VI-Wqd" secondAttribute="leading" id="p87-zI-P1R"/>
@@ -516,6 +516,7 @@
                         <outlet property="timestampLabel" destination="aVU-eV-xOV" id="R6A-qQ-v09"/>
                         <outlet property="tweetTextLabel" destination="8hD-t0-H5p" id="UIS-dq-5YQ"/>
                         <outlet property="usernameLabel" destination="EI6-IR-wzK" id="qoH-kR-JKC"/>
+                        <segue destination="A6y-Ca-gGP" kind="show" identifier="toProfile" id="GpM-I9-wNm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZRi-lH-QBd" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -571,7 +572,7 @@
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I love tweeting!" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aeF-uq-FAk">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I love tweeting!" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aeF-uq-FAk" customClass="ActiveLabel" customModule="ActiveLabel">
                                                     <rect key="frame" x="74" y="42" width="293" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -659,6 +660,7 @@
                                             <outlet property="timestampLabel" destination="4Lv-hc-D9p" id="WBz-TK-aJF"/>
                                             <outlet property="tweetTextLabel" destination="aeF-uq-FAk" id="vj8-Yz-g2E"/>
                                             <outlet property="usernameLabel" destination="S6J-aD-QH5" id="xlT-V1-8X5"/>
+                                            <segue destination="Zyf-WN-d4I" kind="show" identifier="toDetail" id="A4E-6C-Tn2"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -759,7 +761,7 @@
             </objects>
             <point key="canvasLocation" x="3564" y="804.64767616191909"/>
         </scene>
-        <!--Memories View Controller-->
+        <!--Mentions-->
         <scene sceneID="HhG-xp-3PK">
             <objects>
                 <viewController id="KDl-a8-Czp" customClass="MemoriesViewController" customModule="twitter_alamofire_demo" customModuleProvider="target" sceneMemberID="viewController">
@@ -807,7 +809,7 @@
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I love tweeting!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cy1-cu-V0H">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I love tweeting!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cy1-cu-V0H" customClass="ActiveLabel" customModule="ActiveLabel">
                                                     <rect key="frame" x="74" y="60" width="115" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -909,6 +911,7 @@
                                             <outlet property="timestampLabel" destination="pVg-mC-hF4" id="H3s-qF-NAR"/>
                                             <outlet property="tweetTextLabel" destination="Cy1-cu-V0H" id="GH8-xZ-nkg"/>
                                             <outlet property="usernameLabel" destination="rTS-b8-tvJ" id="UKc-Ql-UbU"/>
+                                            <segue destination="Zyf-WN-d4I" kind="show" identifier="toDetail" id="dzH-pj-OoL"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -922,7 +925,7 @@
                             <constraint firstAttribute="bottom" secondItem="aWg-AQ-ADY" secondAttribute="bottom" id="vNB-qi-DbF"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="c3u-9w-PMh"/>
+                    <navigationItem key="navigationItem" title="Mentions" id="c3u-9w-PMh"/>
                     <connections>
                         <outlet property="tableView" destination="aWg-AQ-ADY" id="U6u-rw-9B3"/>
                         <segue destination="A6y-Ca-gGP" kind="show" identifier="toProfile" id="sye-KA-TYV"/>
@@ -1042,7 +1045,7 @@
         <image name="retweet-icon-green" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Be5-v9-ppT"/>
-        <segue reference="4Nn-AM-QEh"/>
+        <segue reference="sye-KA-TYV"/>
+        <segue reference="A4E-6C-Tn2"/>
     </inferredMetricsTieBreakers>
 </document>
