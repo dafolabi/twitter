@@ -122,7 +122,7 @@
                                                         <action selector="didTapProfile:" destination="U1g-kw-izy" eventType="touchUpInside" id="qi6-id-aWH"/>
                                                     </connections>
                                                 </button>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KA5-z3-w6I">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KA5-z3-w6I">
                                                     <rect key="frame" x="8" y="63" width="474.5" height="355.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="KA5-z3-w6I" secondAttribute="height" multiplier="4:3" id="AJH-IP-fqc"/>
@@ -561,7 +561,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="271" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="281-VP-lnq">
-                                <rect key="frame" x="0.0" y="240" width="375" height="427"/>
+                                <rect key="frame" x="0.0" y="240" width="375" height="378"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="UserTweetCell" rowHeight="271" id="bjT-t1-2vu" customClass="UserTweetCell" customModule="twitter_alamofire_demo" customModuleProvider="target">
@@ -1080,7 +1080,7 @@
         <image name="retweet-icon-green" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="4Nn-AM-QEh"/>
         <segue reference="A4E-6C-Tn2"/>
-        <segue reference="GpM-I9-wNm"/>
     </inferredMetricsTieBreakers>
 </document>
