@@ -20,6 +20,8 @@ class Tweet {
     var user: User // Contains name, screenname, etc. of tweet author
     var createdAtString: String // Display date
     var detailCreatedAtString: String // Display date
+    
+    var displayUrl: URL?
 
     
     // MARK: - Create initializer with dictionary
@@ -30,6 +32,14 @@ class Tweet {
         favorited = dictionary["favorited"] as? Bool
         retweetCount = dictionary["retweet_count"] as! Int
         retweeted = dictionary["retweeted"] as! Bool
+        
+        //getting the photo out of the tweet body
+        let entities = dictionary["entities"] as! [String: Any]
+        if let media = entities["media"] as? [[String: Any]] {
+            let firstMediaItem = media[0]
+            let displayURLString = firstMediaItem["media_url_https"] as! String
+            displayUrl = URL(string: displayURLString)
+        }
         
         let user = dictionary["user"] as! [String: Any]
         self.user = User(dictionary: user)
@@ -68,6 +78,8 @@ class Tweet {
         formatter.timeStyle = .none
         // Convert Date to String
         detailCreatedAtString = formatter.string(from: date)
+        
+        
  
     }
     

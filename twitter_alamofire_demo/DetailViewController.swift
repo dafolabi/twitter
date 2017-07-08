@@ -26,6 +26,10 @@ class DetailViewController: UIViewController, TweetCellDelegate {
     @IBOutlet weak var retweetButton: UIButton!
     @IBOutlet weak var favoriteButton: UIButton!
     
+    @IBOutlet weak var mediaImageView: UIImageView!
+    
+    @IBOutlet weak var fromBottomToTop: NSLayoutConstraint!
+    
     var tweet: Tweet!
     
     weak var delegate: TweetCellDelegate?
@@ -94,6 +98,18 @@ class DetailViewController: UIViewController, TweetCellDelegate {
             
         } else {
             retweetCountLabel.text = String(tweet.retweetCount)
+        }
+        
+        //if there's image media in the tweet, display it
+        if let url = tweet.displayUrl {
+            mediaImageView.isHidden = false
+            mediaImageView.af_setImage(withURL: url)
+            fromBottomToTop.constant = 275
+        }
+            //if there's no image media, hide the image view and shrink the constraint
+        else {
+            mediaImageView.isHidden = true
+            fromBottomToTop.constant = 8
         }
     
     }

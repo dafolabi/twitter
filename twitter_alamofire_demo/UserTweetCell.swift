@@ -24,6 +24,10 @@ class UserTweetCell: UITableViewCell {
     @IBOutlet weak var favoriteButton: UIButton!
     @IBOutlet weak var replyButton: UIButton!
     
+    @IBOutlet weak var mediaImageView: UIImageView!
+    
+    @IBOutlet weak var fromBottomToTop: NSLayoutConstraint!
+
     var tweet: Tweet! {
         didSet {
             let url = URL(string: tweet.user.profilePicutreUrl)!
@@ -58,7 +62,6 @@ class UserTweetCell: UITableViewCell {
             }
             
             
-            
             // favorite count
             if tweet.favoriteCount == 0 {
                 favoriteCountLabel.text = ""
@@ -86,6 +89,18 @@ class UserTweetCell: UITableViewCell {
                 } else {
                     retweetCountLabel.text = String(tweet.retweetCount)
                 }
+            }
+            
+            //if there's image media in the tweet, display it
+            if let url = tweet.displayUrl {
+                mediaImageView.isHidden = false
+                mediaImageView.af_setImage(withURL: url)
+                fromBottomToTop.constant = 400
+            }
+                //if there's no image media, hide the image view and shrink the constraint
+            else {
+                mediaImageView.isHidden = true
+                fromBottomToTop.constant = 8
             }
         }
     }
