@@ -8,53 +8,56 @@ Time spent: **X** hours spent in total
 
 The following **required** functionality is completed:
 
-- [ ] User sees app icon in home screen and styled launch screen
-- [ ] User can sign in using OAuth login flow
-- [ ] User can Logout
-- [ ] User can view last 20 tweets from their home timeline
-- [ ] In the home timeline, user can view tweet with the user profile picture, username, tweet text, and timestamp.
-- [ ] User can pull to refresh.
-- [ ] User can tap the retweet and favorite buttons in a tweet cell to retweet and/or favorite a tweet.
-- [ ] User can compose a new tweet by tapping on a compose button.
-- [ ] Using AutoLayout, the Tweet cell should adjust it's layout for iPhone 7, Plus and SE device sizes as well as accommodate device rotation.
-- [ ] The current signed in user will be persisted across restarts
+- [X] User sees app icon in home screen and styled launch screen
+- [X] User can sign in using OAuth login flow
+- [X] User can Logout
+- [X] User can view last 20 tweets from their home timeline
+- [X] In the home timeline, user can view tweet with the user profile picture, username, tweet text, and timestamp.
+- [X] User can pull to refresh.
+- [X] User can tap the retweet and favorite buttons in a tweet cell to retweet and/or favorite a tweet.
+- [X] User can compose a new tweet by tapping on a compose button.
+- [X] Using AutoLayout, the Tweet cell should adjust it's layout for iPhone 7, Plus and SE device sizes as well as accommodate device rotation.
+- [X] The current signed in user will be persisted across restarts
 
 The following **optional** features are implemented:
 
-- [ ] Tweet Details Page: User can tap on a tweet to view it, with controls to retweet, favorite, and reply.
-- [ ] User can view their profile in a *profile tab*
+- [X] Tweet Details Page: User can tap on a tweet to view it, with controls to retweet, favorite, and reply.
+- [X] User can view their profile in a *profile tab*
 - Contains the user header view: picture and tagline
 - Contains a section with the users basic stats: # tweets, # following, # followers
-- [ ] Profile view should include that user's timeline
-- [ ] User should display the relative timestamp for each tweet "8m", "7h"
-- [ ] User should be able to unretweet and unfavorite and should decrement the retweet and favorite count. Refer to [[this guide|unretweeting]] for help on implementing unretweeting.
-- [ ] Links in tweets are clickable.
-- [ ] User can tap the profile image in any tweet to see another user's profile
+- [X] Profile view should include that user's timeline
+- [X] User should display the relative timestamp for each tweet "8m", "7h"
+- [X] User should be able to unretweet and unfavorite and should decrement the retweet and favorite count. Refer to [[this guide|unretweeting]] for help on implementing unretweeting.
+- [X] Links in tweets are clickable.
+- [X] User can tap the profile image in any tweet to see another user's profile
 - Contains the user header view: picture and tagline
 - Contains a section with the users basic stats: # tweets, # following, # followers
-- [ ] User can load more tweets once they reach the bottom of the feed using infinite loading similar to the actual Twitter client.
-- [ ] When composing, you should have a countdown for the number of characters remaining for the tweet (out of 140) (**1 point**)
-- [ ] After creating a new tweet, a user should be able to view it in the timeline immediately without refetching the timeline from the network.
+- [X] User can load more tweets once they reach the bottom of the feed using infinite loading similar to the actual Twitter client.
+- [X] When composing, you should have a countdown for the number of characters remaining for the tweet (out of 140) (**1 point**)
+- [X] After creating a new tweet, a user should be able to view it in the timeline immediately without refetching the timeline from the network.
 - [ ] User can reply to any tweet, and replies should be prefixed with the username and the reply_id should be set when posting the tweet (**2 points**)
-- [ ] User sees embedded images in tweet if available 
-- [ ] User can switch between timeline, mentions, or profile view through a tab bar (**3 points**)
+- [X] User sees embedded images in tweet if available 
+- [X] User can switch between timeline, mentions, or profile view through a tab bar (**3 points**)
 - [ ] Profile Page: pulling down the profile page should blur and resize the header image. (**4 points**)
 
 
 The following **additional** features are implemented:
 
-- [ ] List anything else that you can get done to improve the app functionality!
+- [X] List anything else that you can get done to improve the app functionality!
+  - the countdown for the tweet turns read once the tweet is less than 20 character remaining and the tweet button is disabled when the tweet has exceeded 140 characters
+  - add the twitter logo to the top of the navigation button through code on the home timeline
+  
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
-1.
-2.
+1. Adding video to the twitter app would be great. It would probably be a similar process to adding pictures or maybe there is a pod that can be downloaded from github that would help with that process.
+2. A classmate pointed out a better way to implements pictures within the timeline that I would like to try out. The images could be linked with a stack that would allow them to keep the aspect ratio and help with the autolayout.
 
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='http://i.imgur.com/l1QsWBM.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
